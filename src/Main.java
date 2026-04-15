@@ -36,7 +36,7 @@ class BatallaPociones {
 
         Scanner sc = new Scanner(System.in);
 
-        // Declaración de variables
+        // Declaración de variablessss
         String jugador1, jugador2;
         int eleccion1, eleccion2;
         int puntosJ1 = 0, puntosJ2 = 0; // acumuladores
@@ -44,7 +44,7 @@ class BatallaPociones {
 
         System.out.println("=== BATALLA DE POCIONES ===");
 
-        // Entrada de datos, solicita los nombres
+        // Entrada de datos, solicita los nombres de los jugadores
         System.out.print("Nombre Jugador 1: ");
         jugador1 = sc.next();
 
