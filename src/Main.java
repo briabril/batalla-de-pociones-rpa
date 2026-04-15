@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 class BatallaPociones {
 
-    /* Módulo que recibe las elecciones de ambos jugadores y determina el ganador */
+    /* Módulo que recibe las elecciones y determina el ganador */
     public static int determinarGanador(int j1, int j2) {
         if (j1 == j2) return 0;
 
@@ -14,7 +14,12 @@ class BatallaPociones {
         return 2;
     }
 
-    /* Módulo que Convierte un valor numérico en el nombre de la poción correspondiente */
+    /* Módulo que genera una elección aleatoria para la computadora */
+    public static int generarOponente() {
+        return (int)(Math.random() * 3) + 1;
+    }
+
+    /* Módulo que convierte un valor numérico en el nombre de la poción */
     public static String nombrePocion(int opcion) {
         return switch (opcion) {
             case 1 -> "Fuego";
@@ -24,86 +29,69 @@ class BatallaPociones {
         };
     }
 
-    /* Módulo que simula la limpieza de la consola imprimiendo varias líneas en blanco */
-    public static void limpiarPantalla() {
-        for (int i = 0; i < 20; i++) {
-            System.out.println();
-        }
-    }
-
     /* Programa Principal (main) */
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
 
-        // Declaración de variablessss
-        String jugador1, jugador2;
+        // Declaración de variables
+        String jugador1;
         int eleccion1, eleccion2;
-        int puntosJ1 = 0, puntosJ2 = 0; // acumuladores
+        int puntosJ1 = 0, puntosCPU = 0; // acumuladores iii
         int ronda = 1; // contador
 
         System.out.println("=== BATALLA DE POCIONES ===");
 
-        // Entrada de datos, solicita los nombres de los jugadores
-        System.out.print("Nombre Jugador 1: ");
+        // Entrada de datos
+        System.out.print("Nombre del Jugador: ");
         jugador1 = sc.next();
 
-        System.out.print("Nombre Jugador 2: ");
-        jugador2 = sc.next();
-
-        // Estructura repetitiva que itera 5 rondas
+        // Bucle de 5 rondas
         do {
             System.out.println("\nRonda " + ronda);
 
-            // Validación de entrada jugador 1
+            // Validación de entrada del jugador
             do {
                 System.out.print(jugador1 + " elige (1=Fuego, 2=Agua, 3=Planta): ");
                 eleccion1 = sc.nextInt();
             } while (eleccion1 < 1 || eleccion1 > 3);
 
-            limpiarPantalla();
+            // Elección automática de la computadora
+            eleccion2 = generarOponente();
 
-            // Validación de entrada jugador 2
-            do {
-                System.out.print(jugador2 + " elige (1=Fuego, 2=Agua, 3=Planta): ");
-                eleccion2 = sc.nextInt();
-            } while (eleccion2 < 1 || eleccion2 > 3);
+            // Muestra las elecciones
+            System.out.println(jugador1 + " usó " + nombrePocion(eleccion1) + "!");
+            System.out.println("La compu usó " + nombrePocion(eleccion2) + "!");
 
-            limpiarPantalla();
-
-            // Salida de datos (elecciones)
-            System.out.println(jugador1 + " usó " + nombrePocion(eleccion1));
-            System.out.println(jugador2 + " usó " + nombrePocion(eleccion2));
-
-            // Determinar ganador de la ronda
+            // Determinar ganador
             int resultado = determinarGanador(eleccion1, eleccion2);
 
-            // Estructura condicional
+            // Condicional
             if (resultado == 1) {
                 System.out.println("Gana la ronda " + jugador1);
-                puntosJ1++; // acumulador
+                puntosJ1++;
             } else if (resultado == 2) {
-                System.out.println("Gana la ronda " + jugador2);
-                puntosJ2++; // acumulador
+                System.out.println("Gana la ronda la Computadora >:)");
+                puntosCPU++;
             } else {
                 System.out.println("Empate");
             }
 
-            // Mostrar puntaje parcial
+            // Mostrar puntaje
             System.out.println("Puntaje: " + jugador1 + " " + puntosJ1 +
-                    " - " + jugador2 + " " + puntosJ2);
+                    " - Computadora " + puntosCPU);
 
-            ronda++; // incremento del contador
+            ronda++;
 
         } while (ronda <= 5);
 
         // Resultado final
         System.out.println("\n=== RESULTADO FINAL ===");
 
-        if (puntosJ1 > puntosJ2) {
+        if (puntosJ1 > puntosCPU) {
             System.out.println("HA GANADO: " + jugador1);
-        } else if (puntosJ2 > puntosJ1) {
-            System.out.println("HA GANADO: " + jugador2);
+        } else if (puntosCPU > puntosJ1) {
+            System.out.println("HA GANADO: la Computadora");
         } else {
             System.out.println("ES UN EMPATE!");
         }
