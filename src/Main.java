@@ -1,105 +1,93 @@
 import java.util.Scanner;
 
 class BatallaPociones {
+    public static int determinarGanador(int opcionJugador, int opcionComputadora) {
 
-    public static int determinarGanador(int j1, int j2) {
-        if (j1 == j2) return 0;
-        if ((j1 == 1 && j2 == 3) || (j1 == 3 && j2 == 2) || (j1 == 2 && j2 == 1)) return 1;
-        return 2;
+        int resultado;
+
+        if (opcionJugador == opcionComputadora) {
+            resultado = 0;
+        } else if ((opcionJugador == 1 && opcionComputadora == 3) ||
+                (opcionJugador == 3 && opcionComputadora == 2) ||
+                (opcionJugador == 2 && opcionComputadora == 1)) {
+            resultado = 1;
+        } else {
+            resultado = 2;
+        }
+
+        return resultado;
     }
 
-    public static int generarOponente() {
-        return (int) (Math.random() * 3) + 1;
+    public static int generarOpcionComputadora() {
+        int opcion;
+        opcion = (int) (Math.random() * 3) + 1;
+        return opcion;
     }
 
-    public static String nombrePocion(int o) {
-        return switch (o) {
-            case 1 -> "🔥 Fuego";
-            case 2 -> "💧 Agua";
-            case 3 -> "🌿 Planta";
-            default -> "";
-        };
-    }
+    public static String nombrePocion(int opcion) {
+        String nombre;
 
-    public static String barraVida(int vida) {
-        String b = "";
-        for (int i = 0; i < vida / 10; i++) b += "█";
-        return b;
-    }
-
-    public static void linea() {
-        System.out.println("================================");
+        if (opcion == 1) {
+            nombre = "Fuego";
+        } else if (opcion == 2) {
+            nombre = "Agua";
+        } else {
+            nombre = "Planta";
+        }
+        return nombre;
     }
 
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
 
-        int vJ = 100, vCPU = 100;
-        int pJ = 0, pCPU = 0;
-        int ronda = 1;
+        int puntosJugador = 0;
+        int puntosComputadora = 0;
+        int numeroRonda = 1;
 
-        System.out.println("\n🧪 BATALLA DE POCIONES 🧪");
+        System.out.println("BATALLA DE POCIONES");
 
-        do {
-            linea();
-            System.out.println("⚔️  RONDA " + ronda);
-            linea();
+        while (numeroRonda <= 5) {
+            System.out.println("\nRonda " + numeroRonda);
 
-            System.out.print("👉 Elegí (1🔥 2💧 3🌿): ");
-            int e1;
-            do { e1 = sc.nextInt(); } while (e1 < 1 || e1 > 3);
+            int opcionJugador;
 
-            int e2 = generarOponente();
+            do {
+                System.out.print("Elegí (1 Fuego, 2 Agua, 3 Planta): ");
+                opcionJugador = sc.nextInt();
+            } while (opcionJugador < 1 || opcionJugador > 3);
 
-            System.out.println("\n🎮 Jugador: " + nombrePocion(e1));
-            System.out.println("🤖 CPU:     " + nombrePocion(e2));
+            int opcionComputadora = generarOpcionComputadora();
 
-            int res = determinarGanador(e1, e2);
+            System.out.println("Jugador: " + nombrePocion(opcionJugador));
+            System.out.println("Computadora: " + nombrePocion(opcionComputadora));
 
-            linea();
+            int resultadoRonda = determinarGanador(opcionJugador, opcionComputadora);
 
-            if (res == 1) {
-                System.out.println("🟢 VICTORIA");
-                System.out.println("💥 -20 HP a la CPU");
-                vCPU -= 20; pJ++;
-            } else if (res == 2) {
-                System.out.println("🔴 DERROTA");
-                System.out.println("💥 -20 HP al jugador");
-                vJ -= 20; pCPU++;
+            if (resultadoRonda == 1) {
+                System.out.println("Gana el jugador esta ronda");
+                puntosJugador++;
+            } else if (resultadoRonda == 2) {
+                System.out.println("Gana la computadora esta ronda");
+                puntosComputadora++;
             } else {
-                System.out.println("🟡 EMPATE");
-                System.out.println("⚡ Ambos pierden -5 HP");
-                vJ -= 5; vCPU -= 5;
+                System.out.println("Empate");
             }
-
-            linea();
-
-            System.out.println("❤️ Jugador: " + vJ + " " + barraVida(vJ));
-            System.out.println("❤️ CPU:     " + vCPU + " " + barraVida(vCPU));
-
-            if (vJ <= 0 || vCPU <= 0) break;
-
-            ronda++;
-
-        } while (ronda <= 5);
-
-        linea();
-        System.out.println("🏆 RESULTADO FINAL");
-        linea();
-
-        if (vJ <= 0 && vCPU <= 0) {
-            System.out.println("💀 Empate total");
-        } else if (vCPU <= 0 || pJ > pCPU) {
-            System.out.println("👑 GANA EL JUGADOR");
-        } else if (vJ <= 0 || pCPU > pJ) {
-            System.out.println("🤖 GANA LA CPU");
-        } else {
-            System.out.println("⚖️ Empate");
+            numeroRonda++;
         }
 
-        linea();
-        System.out.println("📊 Puntaje final: Jugador " + pJ + " - CPU " + pCPU);
-        linea();
+        System.out.println("\nRESULTADO FINAL");
+
+        if (puntosJugador > puntosComputadora) {
+            System.out.println("Gana el jugador");
+        } else if (puntosComputadora > puntosJugador) {
+            System.out.println("Gana la computadora");
+        } else {
+            System.out.println("Empate");
+        }
+
+        System.out.println("Puntaje: Jugador " + puntosJugador + " - Computadora " + puntosComputadora);
+
+        sc.close();
     }
 }
