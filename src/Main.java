@@ -42,13 +42,12 @@ class BatallaPociones {
         Scanner sc = new Scanner(System.in);
         int puntosJugador = 0;
         int puntosComputadora = 0;
-        int numeroRonda = 1;
 
         System.out.println("=================================");
         System.out.println("🧪   BATALLA DE POCIONES   🧪");
         System.out.println("=================================");
 
-        while (numeroRonda <= 5) {
+        for (int numeroRonda = 1; numeroRonda <= 5; numeroRonda++) {
             System.out.println("\n🔁 Ronda " + numeroRonda);
             System.out.println("-------------------------------");
 
@@ -77,7 +76,6 @@ class BatallaPociones {
             } else {
                 System.out.println("Empate 🤝");
             }
-            numeroRonda++;
         }
 
         System.out.println("\n=================================");
